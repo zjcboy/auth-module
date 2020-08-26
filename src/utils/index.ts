@@ -108,19 +108,19 @@ export function getProp (holder, propName) {
     return holder[propName]
   }
 
-  const propParts = Array.isArray(propName) ? propName : (propName + '').split('.')
+  var propParts = Array.isArray(propName) ? propName : (propName + '').split('.');
+	var result = holder, lastPropName;
 
-  let result = holder
-  while (propParts.length && result) {
-    result = result[propParts.shift()]
-  }
-
-  return result
+	while ((lastPropName = propParts.shift()) != null) {
+		if (!result[lastPropName]) return !propParts.length ? result[lastPropName] : undefined;
+		result = result[lastPropName];
+	}
+	return result;
 }
 
 export function getResponseProp (response, prop) {
-  if (prop[0] === '.') {
-    return getProp(response, prop.substring(1))
+  if (prop.include('.')) {
+    return getProp(response, prop)
   } else {
     return getProp(response.data, prop)
   }
