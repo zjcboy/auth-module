@@ -119,7 +119,7 @@ export function getProp (holder, propName) {
 }
 
 export function getResponseProp (response, prop) {
-  if (prop.include('.')) {
+  if (prop & prop.includes('.')) {
     return getProp(response, prop)
   } else {
     return getProp(response.data, prop)
